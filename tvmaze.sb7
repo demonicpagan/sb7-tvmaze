@@ -1,0 +1,16 @@
+sb7 command add tvmaze 1 -none tvmaze
+sb7 register user TVM
+sb7 register user TVM:*
+
+proc @tvmaze { nick host handle chan arg } {
+	sb7 parseflags
+
+	switch -exact -- $1l {
+
+		help {
+			print -help $nick "\[TVMAZA\]"
+			print -help $nick "Syntax: $::botnick HELP"
+			return
+		}
+	}
+}
