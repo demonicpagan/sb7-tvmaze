@@ -2,6 +2,17 @@ sb7 command add tvmaze 1 -none tvmaze
 sb7 register user TVM
 sb7 register user TVM:*
 
+namespace eval tvmaze {
+	# Define search URLs
+	variable search_shows "http://api.tvmaze.com/search/shows" # ?q=girls
+	variable single_show "http://api.tvmaze.com/singlesearch/shows" # ?q=girls for episode embedding: &embed=episodes
+	variable show_lookup "http://api.tvmaze.com/lookup/shows" # ?tvrage=24493 or ?thetvdb=81189
+	variable ppl_search "http://api.tvmaze.com/search/people" # ?q=lauren
+	variable eps_sched "http://api.tvmaze.com/schedule" # ?country=countrycode (optional) ?date=2014-12-01 (optional)
+	variable shows "http://api.tvmaze.com/shows/" 
+	variable 
+}
+
 proc @tvmaze { nick host handle chan arg } {
 	sb7 parseflags
 
@@ -10,7 +21,20 @@ proc @tvmaze { nick host handle chan arg } {
 		help {
 			print -help $nick "\[TVMAZA\]"
 			print -help $nick "Syntax: $::botnick HELP"
+			print -help $nick
 			return
 		}
 	}
+}
+
+proc tvmaze:check_packages args {
+	# Make sure the required packages are installed
+	empty ok bad
+
+	foreach a [list http dict json] {
+		set error [catch {package require $a}]
+		if $error {lappend bad $a} {lappend ok $a}
+	}
+
+	return [list $ok $bad]
 }
